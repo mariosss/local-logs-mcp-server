@@ -13,59 +13,80 @@ const os = require('os');
 console.log('🚀 Installing Local Logs MCP Server...\n');
 
 try {
-  // Install the package
-  console.log('📦 Installing package from GitHub...');
-  execSync('npm install -g https://github.com/mariosss/local-logs-mcp-server --ignore-scripts', { stdio: 'inherit' });
+  // Download and install the package directly
+  console.log('📦 Downloading and installing package from GitHub...');
   
-  console.log('\n✅ Package installed successfully!');
-  console.log('🔧 Now configuring Cursor...\n');
-  
-  // Manual configuration (always do this since setup script has issues)
   const fs = require('fs');
   const path = require('path');
   const os = require('os');
+  const https = require('https');
   
-  const configPath = path.join(os.homedir(), '.cursor', 'mcp.json');
-  const configDir = path.dirname(configPath);
-  
-  // Ensure .cursor directory exists
-  if (!fs.existsSync(configDir)) {
-    fs.mkdirSync(configDir, { recursive: true });
+  // Create installation directory
+  const installDir = path.join(os.homedir(), '.local-logs-mcp-server');
+  if (!fs.existsSync(installDir)) {
+    fs.mkdirSync(installDir, { recursive: true });
   }
   
-  let config = {};
-  if (fs.existsSync(configPath)) {
-    try {
-      config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-    } catch (error) {
-      config = {};
-    }
-  }
+  // Download the main server file
+  const serverUrl = 'https://raw.githubusercontent.com/mariosss/local-logs-mcp-server/main/local-logs-mcp-server.js';
+  const serverPath = path.join(installDir, 'local-logs-mcp-server.js');
   
-  if (!config.mcpServers) {
-    config.mcpServers = {};
-  }
-  
-  // Add local-logs configuration
-  const packagePath = path.join(os.homedir(), 'AppData', 'Roaming', 'npm', 'node_modules', 'local-logs-mcp-server', 'local-logs-mcp-server.js');
-  config.mcpServers['local-logs'] = {
-    "command": "node",
-    "args": [packagePath],
-    "cwd": process.cwd(),
-    "env": {
-      "LOGS_DIR": "./logs"
-    }
-  };
-  
-  fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-  console.log('✅ Cursor configuration updated!');
-  
-  console.log('\n🎉 Installation complete!');
-  console.log('🎯 Next steps:');
-  console.log('1. Restart Cursor completely');
-  console.log('2. Go to Settings > Cursor Settings > MCP & Integrations');
-  console.log('3. You should see "local-logs" with a green status');
-  console.log('4. Test by asking: "Check my server logs"');
+  console.log('📥 Downloading server file...');
+  const serverFile = fs.createWriteStream(serverPath);
+  https.get(serverUrl, (response) => {
+    response.pipe(serverFile);
+    serverFile.on('finish', () => {
+      serverFile.close();
+      console.log('✅ Server file downloaded!');
+      
+      // Configure Cursor
+      console.log('🔧 Configuring Cursor...');
+      
+      const configPath = path.join(os.homedir(), '.cursor', 'mcp.json');
+      const configDir = path.dirname(configPath);
+      
+      // Ensure .cursor directory exists
+      if (!fs.existsSync(configDir)) {
+        fs.mkdirSync(configDir, { recursive: true });
+      }
+      
+      let config = {};
+      if (fs.existsSync(configPath)) {
+        try {
+          config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+        } catch (error) {
+          config = {};
+        }
+      }
+      
+      if (!config.mcpServers) {
+        config.mcpServers = {};
+      }
+      
+      // Add local-logs configuration
+      config.mcpServers['local-logs'] = {
+        "command": "node",
+        "args": [serverPath],
+        "cwd": process.cwd(),
+        "env": {
+          "LOGS_DIR": "./logs"
+        }
+      };
+      
+      fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+      console.log('✅ Cursor configuration updated!');
+      
+      console.log('\n🎉 Installation complete!');
+      console.log('🎯 Next steps:');
+      console.log('1. Restart Cursor completely');
+      console.log('2. Go to Settings > Cursor Settings > MCP & Integrations');
+      console.log('3. You should see "local-logs" with a green status');
+      console.log('4. Test by asking: "Check my server logs"');
+    });
+  }).on('error', (err) => {
+    console.error('❌ Download failed:', err.message);
+    process.exit(1);
+  });
   
 } catch (error) {
   console.error('\n❌ Installation failed:', error.message);
