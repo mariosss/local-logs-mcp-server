@@ -84,6 +84,7 @@ function updateConfig(config, configPath) {
   config.mcpServers['local-logs'] = {
     "command": "node",
     "args": [packagePath],
+    "cwd": process.cwd(),
     "env": {
       "LOGS_DIR": "./logs"
     }
