@@ -2,6 +2,16 @@
 
 Quick setup guide for different AI tools and IDEs.
 
+## 🎯 One-Command Setup (Recommended)
+
+**The easiest way - just one command:**
+
+```bash
+npm install -g local-logs-mcp-server
+```
+
+**That's it!** The package automatically configures Cursor for you. Just restart Cursor and you're ready to go!
+
 ## 🎯 Quick Start (NPX - No Installation Required)
 
 The fastest way to use the server without installing it globally:
@@ -129,3 +139,4 @@ Once working, you can ask your AI assistant:
 - *"Are there any errors?"*
 - *"Show me the last 20 log entries"*
 - *"Search logs for 'database connection'"*
+
