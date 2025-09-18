@@ -20,52 +20,45 @@ try {
   console.log('\n✅ Package installed successfully!');
   console.log('🔧 Now configuring Cursor...\n');
   
-  // Try to run the setup script, but handle the case where it's not available
-  try {
-    execSync('local-logs-setup', { stdio: 'inherit' });
-  } catch (setupError) {
-    console.log('⚠️  Setup script not available, configuring manually...');
-    
-    // Manual configuration
-    const fs = require('fs');
-    const path = require('path');
-    const os = require('os');
-    
-    const configPath = path.join(os.homedir(), '.cursor', 'mcp.json');
-    const configDir = path.dirname(configPath);
-    
-    // Ensure .cursor directory exists
-    if (!fs.existsSync(configDir)) {
-      fs.mkdirSync(configDir, { recursive: true });
-    }
-    
-    let config = {};
-    if (fs.existsSync(configPath)) {
-      try {
-        config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-      } catch (error) {
-        config = {};
-      }
-    }
-    
-    if (!config.mcpServers) {
-      config.mcpServers = {};
-    }
-    
-    // Add local-logs configuration
-    const packagePath = path.join(os.homedir(), 'AppData', 'Roaming', 'npm', 'node_modules', 'local-logs-mcp-server', 'local-logs-mcp-server.js');
-    config.mcpServers['local-logs'] = {
-      "command": "node",
-      "args": [packagePath],
-      "cwd": process.cwd(),
-      "env": {
-        "LOGS_DIR": "./logs"
-      }
-    };
-    
-    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-    console.log('✅ Cursor configuration updated!');
+  // Manual configuration (always do this since setup script has issues)
+  const fs = require('fs');
+  const path = require('path');
+  const os = require('os');
+  
+  const configPath = path.join(os.homedir(), '.cursor', 'mcp.json');
+  const configDir = path.dirname(configPath);
+  
+  // Ensure .cursor directory exists
+  if (!fs.existsSync(configDir)) {
+    fs.mkdirSync(configDir, { recursive: true });
   }
+  
+  let config = {};
+  if (fs.existsSync(configPath)) {
+    try {
+      config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+    } catch (error) {
+      config = {};
+    }
+  }
+  
+  if (!config.mcpServers) {
+    config.mcpServers = {};
+  }
+  
+  // Add local-logs configuration
+  const packagePath = path.join(os.homedir(), 'AppData', 'Roaming', 'npm', 'node_modules', 'local-logs-mcp-server', 'local-logs-mcp-server.js');
+  config.mcpServers['local-logs'] = {
+    "command": "node",
+    "args": [packagePath],
+    "cwd": process.cwd(),
+    "env": {
+      "LOGS_DIR": "./logs"
+    }
+  };
+  
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+  console.log('✅ Cursor configuration updated!');
   
   console.log('\n🎉 Installation complete!');
   console.log('🎯 Next steps:');
