@@ -20,6 +20,90 @@ function getCursorConfigPath() {
   }
 }
 
+function detectProjectDirectory() {
+  // Common project directory patterns to look for
+  const commonPatterns = [
+    'gptcreatorai_V3',
+    'gptcreatorai',
+    'my-project',
+    'app',
+    'backend',
+    'server'
+  ];
+  
+  // Start from common development directories
+  const searchPaths = [
+    path.join(os.homedir(), 'source', 'repos'),
+    path.join(os.homedir(), 'Documents', 'Projects'),
+    path.join(os.homedir(), 'Projects'),
+    path.join(os.homedir(), 'dev'),
+    path.join(os.homedir(), 'code'),
+    process.cwd() // Current working directory as fallback
+  ];
+  
+  // Look for directories that might contain logs
+  for (const searchPath of searchPaths) {
+    if (fs.existsSync(searchPath)) {
+      try {
+        const entries = fs.readdirSync(searchPath, { withFileTypes: true });
+        for (const entry of entries) {
+          if (entry.isDirectory()) {
+            const dirPath = path.join(searchPath, entry.name);
+            
+            // Check if this directory has a logs folder or common project structure
+            const hasLogs = fs.existsSync(path.join(dirPath, 'logs')) ||
+                           fs.existsSync(path.join(dirPath, 'apps', 'backend', 'logs')) ||
+                           fs.existsSync(path.join(dirPath, 'server', 'logs')) ||
+                           fs.existsSync(path.join(dirPath, 'backend', 'logs'));
+            
+            if (hasLogs) {
+              console.log(`🎯 Detected project directory: ${dirPath}`);
+              return dirPath;
+            }
+            
+            // Also check for common project names
+            if (commonPatterns.some(pattern => entry.name.toLowerCase().includes(pattern.toLowerCase()))) {
+              console.log(`🎯 Detected project directory: ${dirPath}`);
+              return dirPath;
+            }
+          }
+        }
+      } catch (error) {
+        // Continue searching if we can't read this directory
+        continue;
+      }
+    }
+  }
+  
+  // Fallback to current working directory
+  console.log(`⚠️  Using current directory as fallback: ${process.cwd()}`);
+  return process.cwd();
+}
+
+function detectLogsDirectory(projectDir) {
+  // Check for common log directory structures
+  const logPaths = [
+    'apps/backend/logs',    // Monorepo structure (like gptcreatorai_V3)
+    'server/logs',          // Simple server structure
+    'backend/logs',         // Backend-only structure
+    'logs',                 // Root logs directory
+    'app/logs',             // App structure
+    'src/logs'              // Source structure
+  ];
+  
+  for (const logPath of logPaths) {
+    const fullPath = path.join(projectDir, logPath);
+    if (fs.existsSync(fullPath)) {
+      console.log(`📁 Detected logs directory: ${logPath}`);
+      return logPath;
+    }
+  }
+  
+  // Fallback to ./logs
+  console.log(`📁 Using default logs directory: ./logs`);
+  return './logs';
+}
+
 function setupCursor() {
   console.log('🚀 Setting up Local Logs MCP Server for Cursor...\n');
   
@@ -81,12 +165,19 @@ function setupCursor() {
 function updateConfig(config, configPath) {
   // Add local-logs configuration
   const packagePath = path.join(__dirname, 'local-logs-mcp-server.js');
+  
+  // Try to detect the user's project directory
+  const projectDir = detectProjectDirectory();
+  
+  // Detect the best LOGS_DIR based on project structure
+  const logsDir = detectLogsDirectory(projectDir);
+  
   config.mcpServers['local-logs'] = {
     "command": "node",
     "args": [packagePath],
-    "cwd": process.cwd(),
+    "cwd": projectDir,
     "env": {
-      "LOGS_DIR": "./logs"
+      "LOGS_DIR": logsDir
     }
   };
   
