@@ -10,8 +10,7 @@
   "scripts": {
     "start": "node local-logs-mcp-server.js",
     "test": "node test-server.js",
-    "setup-cursor": "node setup-cursor.js",
-    "postinstall": "node setup-cursor.js"
+    "setup-cursor": "node setup-cursor.js"
   },
   "keywords": [
     "mcp",
