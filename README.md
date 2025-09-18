@@ -32,10 +32,24 @@ Perfect for monitoring Node.js applications, web servers, or any application tha
 ## 📦 Installation
 
 ### 🚀 One-Command Setup (Recommended)
+
+**Linux/Mac:**
+```bash
+curl -sSL https://raw.githubusercontent.com/mariosss/local-logs-mcp-server/main/install.js | node
+```
+
+**Windows (PowerShell):**
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mariosss/local-logs-mcp-server/main/install.js" | Invoke-Expression
+```
+
+**That's it!** The installation script will install the package and configure Cursor automatically. Just restart Cursor and you're ready to go!
+
+### Alternative: Two-Command Setup
 ```bash
 npm install -g https://github.com/mariosss/local-logs-mcp-server
+local-logs-setup
 ```
-**That's it!** The package automatically configures Cursor for you. Just restart Cursor and you're ready to go!
 
 ### Alternative: Manual Setup
 ```bash

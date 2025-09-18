@@ -2,15 +2,16 @@
 
 Quick setup guide for different AI tools and IDEs.
 
-## 🎯 One-Command Setup (Recommended)
+## 🎯 Quick Setup (Recommended)
 
-**The easiest way - just one command:**
+**The easiest way - just two commands:**
 
 ```bash
 npm install -g https://github.com/mariosss/local-logs-mcp-server
+local-logs-setup
 ```
 
-**That's it!** The package automatically configures Cursor for you. Just restart Cursor and you're ready to go!
+**That's it!** The setup script automatically configures Cursor for you. Just restart Cursor and you're ready to go!
 
 ## 🎯 Quick Start (NPX - No Installation Required)
 
