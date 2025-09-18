@@ -35,15 +35,15 @@ Perfect for monitoring Node.js applications, web servers, or any application tha
 
 **Linux/Mac:**
 ```bash
-curl -sSL https://raw.githubusercontent.com/mariosss/local-logs-mcp-server/main/install.js | node
+curl -sSL https://raw.githubusercontent.com/mariosss/local-logs-mcp-server/main/install-new.js | node
 ```
 
 **Windows (PowerShell):**
 ```powershell
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mariosss/local-logs-mcp-server/main/install.js" | Invoke-Expression
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mariosss/local-logs-mcp-server/main/install-new.js" | Invoke-Expression
 ```
 
-**That's it!** The installation script will install the package and configure Cursor automatically. Just restart Cursor and you're ready to go!
+**That's it!** The installation script will download the server file directly and configure Cursor automatically. Just restart Cursor and you're ready to go!
 
 ### Alternative: Two-Command Setup
 ```bash
