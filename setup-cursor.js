@@ -80,9 +80,10 @@ function setupCursor() {
 
 function updateConfig(config, configPath) {
   // Add local-logs configuration
+  const packagePath = path.join(__dirname, 'local-logs-mcp-server.js');
   config.mcpServers['local-logs'] = {
-    "command": "npx",
-    "args": ["-y", "local-logs-mcp-server"],
+    "command": "node",
+    "args": [packagePath],
     "env": {
       "LOGS_DIR": "./logs"
     }
@@ -133,5 +134,6 @@ if (require.main === module) {
 }
 
 module.exports = { setupCursor, getCursorConfigPath };
+
 
 
