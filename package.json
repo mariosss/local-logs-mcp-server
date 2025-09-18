@@ -32,15 +32,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/local-logs-mcp-server.git"
+    "url": "git+https://github.com/mariosss/local-logs-mcp-server.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/local-logs-mcp-server/issues"
+    "url": "https://github.com/mariosss/local-logs-mcp-server/issues"
   },
-  "homepage": "https://github.com/your-username/local-logs-mcp-server#readme",
+  "homepage": "https://github.com/mariosss/local-logs-mcp-server#readme",
   "files": [
     "local-logs-mcp-server.js",
+    "setup-cursor.js",
+    "test-server.js",
     "README.md",
+    "INSTALLATION.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "type": "commonjs"
