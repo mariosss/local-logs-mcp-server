@@ -34,14 +34,14 @@ Perfect for monitoring Node.js applications, web servers, or any application tha
 ### 🚀 Quick Setup (Recommended)
 ```bash
 npm install -g local-logs-mcp-server
-npm run setup-cursor
+local-logs-setup
 ```
 **That's it!** The setup script will configure Cursor for you. Just restart Cursor and you're ready to go!
 
 ### Alternative: Install from GitHub
 ```bash
 npm install -g https://github.com/mariosss/local-logs-mcp-server
-npm run setup-cursor
+local-logs-setup
 ```
 
 ### NPX Usage (No Installation)

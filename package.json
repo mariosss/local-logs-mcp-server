@@ -4,7 +4,8 @@
   "description": "MCP server for monitoring local application logs with real-time tailing, error tracking, and log search capabilities",
   "main": "local-logs-mcp-server.js",
   "bin": {
-    "local-logs-mcp": "local-logs-mcp-server.js"
+    "local-logs-mcp": "local-logs-mcp-server.js",
+    "local-logs-setup": "setup-cursor.js"
   },
   "scripts": {
     "start": "node local-logs-mcp-server.js",

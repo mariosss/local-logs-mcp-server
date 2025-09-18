@@ -8,7 +8,7 @@ Quick setup guide for different AI tools and IDEs.
 
 ```bash
 npm install -g local-logs-mcp-server
-npm run setup-cursor
+local-logs-setup
 ```
 
 **That's it!** The setup script configures Cursor for you. Just restart Cursor and you're ready to go!
