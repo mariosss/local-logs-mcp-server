@@ -1,0 +1,45 @@
+{
+  "name": "local-logs-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for monitoring local application logs with real-time tailing, error tracking, and log search capabilities",
+  "main": "local-logs-mcp-server.js",
+  "bin": {
+    "local-logs-mcp": "local-logs-mcp-server.js"
+  },
+  "scripts": {
+    "start": "node local-logs-mcp-server.js",
+    "test": "node test-server.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "logs",
+    "monitoring",
+    "server-logs",
+    "log-tailing",
+    "cursor",
+    "ai-tools",
+    "claude",
+    "log-monitoring",
+    "error-tracking"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/local-logs-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/local-logs-mcp-server/issues"
+  },
+  "homepage": "https://github.com/your-username/local-logs-mcp-server#readme",
+  "files": [
+    "local-logs-mcp-server.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "type": "commonjs"
+}
